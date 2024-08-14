@@ -21,7 +21,8 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     {
         //float rad = _playerController._headAngle * Mathf.PI / 180.0f;
         //_left.Rotate(-Mathf.Sin(rad) * 30.0f, 0.0f, Mathf.Cos(rad) * 30.0f);
-        _left.AddTorque(_torqueZ * 10.0f, ForceMode.Impulse);
+        _left.AddTorque(_torqueZ * -10.0f, ForceMode.Impulse);
+        _right.AddTorque(_torqueZ * 10.0f, ForceMode.Impulse);
 
         StartCoroutine(SandWitch());
     }

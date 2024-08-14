@@ -59,8 +59,6 @@ public class MoveLegRig : MonoBehaviour
             Mathf.Cos(radX) * offset.z - Mathf.Sin(radX) * offset.y
             );
 
-        Debug.Log(_rootObject.rotation.x);
-
         if (Mathf.Abs(_rootObject.rotation.x) > 0.7f)
         {
             LegPos.z *= -1.0f;

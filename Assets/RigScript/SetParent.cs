@@ -5,7 +5,6 @@ using UnityEngine;
 public class SetParent : MonoBehaviour
 {
     [SerializeField] Transform _parent;
-
     // Start is called before the first frame update
     void Start()
     {
