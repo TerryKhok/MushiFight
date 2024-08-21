@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetParent : MonoBehaviour
 {
-    [SerializeField] Transform _parent;
+    [ReadOnly] public Transform parent;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +14,7 @@ public class SetParent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = _parent.position;
-        transform.rotation = _parent.rotation;
+        //transform.position = parent.position;
+        transform.rotation = parent.rotation;
     }
 }

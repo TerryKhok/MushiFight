@@ -18,6 +18,7 @@ public class ControllLegRig : MonoBehaviour
 
     [Header("Leg")]
     [SerializeField] List<MoveLegRig> moveLegList = new List<MoveLegRig>();
+    [SerializeField] float _maxGripPower = 10.0f;
     [ReadOnly] public int hitLegNum = 0;
 
     List<float> legZOffsets = new List<float>();
@@ -34,9 +35,28 @@ public class ControllLegRig : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _oldPosZ = transform.position.z;
 
-        foreach(var leg in moveLegList)
+        float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
+        _mirror = cos;
+        backMoveOffsetZ *= _mirror;
+        airOffsetZ *= _mirror;
+
+        //if (backMoveOffsetZ < 0.0f)
+        //{
+        //    _mirror = -1.0f;
+        //    airOffsetZ *= _mirror;
+        //}
+
+        IReturnRotation returnRot = null;
+        if (_mirror == -1.0f)
+            returnRot = new ReturnRotationZ(transform);
+        else
+            returnRot = new ReturnRotationX(transform);
+
+        foreach (var leg in moveLegList)
         {
             legZOffsets.Add(leg.offset.z);
+            leg.mirror = _mirror;
+            leg.targetRot = returnRot;
         }
 
         if(setLegRayLenght)
@@ -46,21 +66,13 @@ public class ControllLegRig : MonoBehaviour
                 leg.rayLenght = rayLenght;
             }
         }
-
-        backMoveOffsetZ *= Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
-
-        if(backMoveOffsetZ < 0.0f)
-        {
-            _mirror = -1.0f;
-            airOffsetZ *= _mirror;
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
         bool isMoveY = Mathf.Abs(_oldPosY - transform.position.y) > 0.1f;
-        if(isMoveY)
+        //if(isMoveY)
         {
             hitLegNum = 0;
             foreach (var leg in moveLegList)
@@ -70,6 +82,9 @@ public class ControllLegRig : MonoBehaviour
                     hitLegNum++;
                 }
             }
+
+            float gripPower = Mathf.Max(_maxGripPower * hitLegNum / moveLegList.Count, 0.1f);
+            _rb.angularDrag = gripPower;
         }
         
 

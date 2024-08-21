@@ -14,6 +14,9 @@ public class MoveLegRig : MonoBehaviour
     [SerializeField] float moveTime = 1.0f;
     [SerializeField] float moveDistance = 1.0f;
     [SerializeField] float moveHeight = 0.2f;
+    [ReadOnly] public float mirror = 1.0f;
+
+    public IReturnRotation targetRot;
 
     Transform _rootObject;
     Vector3 _startPos;
@@ -52,14 +55,15 @@ public class MoveLegRig : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float radX = -_rootObject.eulerAngles.x * Mathf.PI / 180.0f;
+        float radX = -_rootObject.eulerAngles.x * Mathf.PI / 180.0f * mirror;
         Vector3 LegPos = new Vector3(
             offset.x,
             Mathf.Sin(radX) * offset.z + Mathf.Cos(radX) * offset.y,
             Mathf.Cos(radX) * offset.z - Mathf.Sin(radX) * offset.y
             );
 
-        if (Mathf.Abs(_rootObject.rotation.x) > 0.7f)
+        float rot = targetRot.GetRotation();
+        if (Mathf.Abs(rot) > 0.7f)
         {
             LegPos.z *= -1.0f;
         }

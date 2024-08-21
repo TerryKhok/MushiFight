@@ -2,11 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public interface IPlayerSkill
 {
     void UsingSkill();
+}
+
+public interface IHeadMove
+{
+    void Move(Vector2 _direction);
+    float GetHeadMaxAngle();
+    ref float GetHeadAngle();
+}
+
+public interface IReturnRotation
+{
+    float GetRotation();
+}
+
+public class ReturnRotationX : IReturnRotation
+{
+    Transform _transform;
+
+    public ReturnRotationX(Transform _tf)
+    {
+        _transform = _tf;
+    }
+
+    public float GetRotation()
+    {
+        return _transform.rotation.x;
+    }
+}
+
+public class ReturnRotationZ : IReturnRotation
+{
+    Transform _transform;
+
+    public ReturnRotationZ(Transform _tf)
+    {
+        _transform = _tf;
+    }
+
+    public float GetRotation()
+    {
+        return _transform.rotation.z;
+    }
 }
 
 public class PlayerController : MonoBehaviour
@@ -18,35 +62,44 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
+    float _startAngleY = 0.0f;
+    IReturnRotation _targetRot;
 
     Rigidbody _rb;
     private Vector2 _moveDirection;
-    private Vector2 _headMoveDirection;
+   
 
     [Header("HeadMove")]
-    [SerializeField] Transform _headTarget;
-    [SerializeField] Transform _headPoint;
-    [SerializeField] Transform _hipTarget;
-    [SerializeField] float _pointDistance = 5.0f;
-    [SerializeField] float _headMoveSpeed = 0.5f;
-    [ReadOnly] public float _headAngle = 0.0f;
+    [SerializeField, ComponentRestriction(typeof(IHeadMove))] Component _headMoveComponent;
 
-    [Header("Skill")]
-    [SerializeField, ComponentRestriction(typeof(IPlayerSkill))] Component _skillComponent;
+    private Vector2 _headMoveDirection;
 
-    IPlayerSkill logger = null;
-    IPlayerSkill Logger
+    IHeadMove headlogger = null;
+    IHeadMove headLogger
     {
         get
         {
-            if (logger == null)
-                logger = _skillComponent.GetComponent<IPlayerSkill>();
-            return logger;
+            if (headlogger == null)
+                headlogger = _skillComponent.GetComponent<IHeadMove>();
+            return headlogger;
         }
     }
 
-    float _headTargetDistance = 0.0f;
-    float _ratio = 0.0f;
+
+    [Header("Skill")]
+    [SerializeField, ComponentRestriction(typeof(IPlayerSkill))] Component _skillComponent;
+    [ReadOnly] public bool usingSkill = false;
+
+    IPlayerSkill skilllogger = null;
+    IPlayerSkill skillLogger
+    {
+        get
+        {
+            if (skilllogger == null)
+                skilllogger = _skillComponent.GetComponent<IPlayerSkill>();
+            return skilllogger;
+        }
+    }
 
     private void OnEnable()
     {
@@ -58,46 +111,71 @@ public class PlayerController : MonoBehaviour
         skill.action.started -= UseSkill;
     }
 
+    Vector3 _centerMass = Vector3.zero;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1f, 0.5f, 0.5f, 1.0f);
+        Gizmos.DrawSphere(_centerMass, 0.25f);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if (transform.eulerAngles.y == 180.0f)
+        //if (transform.eulerAngles.y == 180.0f)
+        //{
+        //    _pointDistance *= -1.0f;
+        //    headAngle = 180.0f;
+        //}
+        _rb = transform.GetComponent<Rigidbody>();
+
+        float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
+        if (cos == -1.0f)
         {
-            _pointDistance *= -1.0f;
-            _headAngle = 180.0f;
+            _targetRot = new ReturnRotationZ(transform);
+        }
+        else
+        {
+            _targetRot = new ReturnRotationX(transform);
         }
 
-        _rb = GetComponent<Rigidbody>();
-        _headTargetDistance = _headTarget.position.z - _hipTarget.position.z;
-        _ratio = _headTargetDistance / _pointDistance;
+        _startAngleY = transform.eulerAngles.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0.0f, 0.0f);
+        _centerMass = _rb.centerOfMass + transform.position;
 
+        //Quaternion rotation = transform.rotation;
+        ////rotation.y = _startAngleY;
+        ////rotation.z = 0.;
+        //transform.rotation = rotation;
 
         _moveDirection = movement.action.ReadValue<Vector2>();
         _headMoveDirection = headMovement.action.ReadValue<Vector2>();
 
-        if(_headMoveDirection.y != 0.0f)
-        {
-            float rad = _headAngle * Mathf.PI / 180.0f;
-            _headPoint.localPosition = new Vector3(0.0f, Mathf.Sin(rad) * _pointDistance, Mathf.Cos(rad) * _pointDistance);
+        headLogger.Move(_headMoveDirection);
 
-            _headTarget.position = Vector3.Lerp(_hipTarget.position, _headPoint.position, _ratio);
-        }
+        float rot = _targetRot.GetRotation();
+        float angle = transform.eulerAngles.x;
+        if (Mathf.Abs(rot) > 0.7f)
+            angle = 180.0f - angle;
+
+        transform.eulerAngles = new Vector3(angle, _startAngleY, 0.0f);
     }
 
     private void FixedUpdate()
     {
-        _rb.velocity = new Vector3(0.0f, _moveDirection.y * moveSpeed * 0.01f, _moveDirection.x * moveSpeed);
-        _headAngle += _headMoveDirection.y * _headMoveSpeed;
+        _rb.velocity = new Vector3(0.0f, _rb.velocity.y/*_moveDirection.y * moveSpeed * 0.01f*/, _moveDirection.x * moveSpeed);
     }
 
     private void UseSkill(InputAction.CallbackContext obj)
     {
-        Logger.UsingSkill();
+        if (usingSkill) return;
+
+        skillLogger.UsingSkill();
+
+        usingSkill = true;
     }
 }
