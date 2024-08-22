@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class SerebesuHeadMove : MonoBehaviour,IHeadMove
+public class TwoTargetHeadMove : MonoBehaviour,IHeadMove
 {
     [Header("Transform")]
     [SerializeField] Transform _headTarget;

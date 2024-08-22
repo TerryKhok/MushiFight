@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _rb.centerOfMass = Vector3.zero;
         _centerMass = _rb.centerOfMass + transform.position;
 
         //Quaternion rotation = transform.rotation;

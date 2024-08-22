@@ -111,4 +111,14 @@ public class MoveLegRig : MonoBehaviour
 
         Debug.DrawRay(rayPos, Quaternion.Euler(_rootObject.eulerAngles) * Vector3.down, Color.green);
     }
+
+    public float GetMoveDistance()
+    {
+        return moveDistance;
+    }
+
+    public void ChangeTargetDistance(float _dis)
+    {
+        moveDistance = _dis;
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class KokusanHeadMove : MonoBehaviour, IHeadMove
+public class OneTargetHeadBodyMove : MonoBehaviour, IHeadMove
 {
     [Header("Head")]
     [SerializeField] Transform _headPoint;

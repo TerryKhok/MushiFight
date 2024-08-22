@@ -24,7 +24,8 @@ class FixedAddForce : IFixedSkill
     public void Fixed(Rigidbody rb, float deltaTime)
     {
         Vector3 dir = _fixedTarget.position - rb.position;
-        rb.AddForce((dir + _myRb.velocity) * _fixedPower * deltaTime, ForceMode.Impulse);
+        dir.z += _myRb.velocity.z;
+        rb.AddForce(dir * _fixedPower * deltaTime, ForceMode.Impulse);
     }
 }
 

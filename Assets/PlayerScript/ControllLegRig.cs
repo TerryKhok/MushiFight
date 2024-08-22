@@ -133,4 +133,13 @@ public class ControllLegRig : MonoBehaviour
         _oldPosZ = transform.position.z;
         _oldPosY = transform.position.y;
     }
+
+    public void PulusAllLegMoveDistance(float _dis)
+    {
+        foreach(var leg in moveLegList)
+        {
+            float targetDis = leg.GetMoveDistance() + _dis;
+            leg.ChangeTargetDistance(targetDis);
+        }
+    }
 }
