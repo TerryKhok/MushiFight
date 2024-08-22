@@ -6,7 +6,6 @@ using UnityEngine;
 public class DashSkill : MonoBehaviour,IPlayerSkill
 {
     [SerializeField] float _dashPower = 10.0f;
-    [SerializeField] float _firsePower = 10.0f;
     [SerializeField] float _dashTime = 1.0f;
     //[SerializeField] float _dashChangeLegWidth = 0.7f;
     [SerializeField] float _CDTime = 1.0f;

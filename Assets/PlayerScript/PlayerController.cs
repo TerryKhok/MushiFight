@@ -55,6 +55,8 @@ public class ReturnRotationZ : IReturnRotation
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerNumber _playerNumber;
+
     [Header("Input")]
     public InputActionReference movement;
     public InputActionReference headMovement;
@@ -68,7 +70,6 @@ public class PlayerController : MonoBehaviour
     Rigidbody _rb;
     private Vector2 _moveDirection;
    
-
     [Header("HeadMove")]
     [SerializeField, ComponentRestriction(typeof(IHeadMove))] Component _headMoveComponent;
 
@@ -101,11 +102,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        skill.action.started += UseSkill;
-    }
-
     private void OnDisable()
     {
         skill.action.started -= UseSkill;
@@ -122,11 +118,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if (transform.eulerAngles.y == 180.0f)
-        //{
-        //    _pointDistance *= -1.0f;
-        //    headAngle = 180.0f;
-        //}
+        skill.action.started += UseSkill;
+
         _rb = transform.GetComponent<Rigidbody>();
 
         float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);

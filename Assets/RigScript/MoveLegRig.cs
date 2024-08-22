@@ -26,11 +26,13 @@ public class MoveLegRig : MonoBehaviour
     float _goalTime = 0.0f;
     bool _isMove = false;
 
-
     private void Awake()
     {
         _rootObject = transform.root.transform;
+    }
 
+    public void Init()
+    {
         float radY = -_rootObject.eulerAngles.y * Mathf.PI / 180.0f;
         offset = new Vector3(
                 Mathf.Cos(radY) * offset.x - Mathf.Sin(radY) * offset.z,

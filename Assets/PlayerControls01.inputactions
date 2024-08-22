@@ -6,7 +6,7 @@
             "id": "20543023-0cee-49e5-b111-fe46a2c46914",
             "actions": [
                 {
-                    "name": "Movement",
+                    "name": "p1Movement",
                     "type": "PassThrough",
                     "id": "7270afc8-c9a9-4726-9af1-ddbee4062830",
                     "expectedControlType": "Stick",
@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill",
+                    "name": "p1Skill",
                     "type": "Button",
                     "id": "a4761551-1e18-4b87-b218-9065e5eab14d",
                     "expectedControlType": "Button",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HeadMovement",
+                    "name": "p1HeadMovement",
                     "type": "PassThrough",
                     "id": "906e6b80-0605-4186-89e5-a26706731980",
                     "expectedControlType": "Stick",
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "p1Movement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -52,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Movement",
+                    "action": "p1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -63,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Movement",
+                    "action": "p1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -74,7 +74,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Movement",
+                    "action": "p1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -85,7 +85,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Movement",
+                    "action": "p1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -95,8 +95,8 @@
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Skill",
+                    "groups": "Controller",
+                    "action": "p1Skill",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -107,7 +107,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadMovement",
+                    "action": "p1HeadMovement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -118,7 +118,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadMovement",
+                    "action": "p1HeadMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -129,7 +129,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadMovement",
+                    "action": "p1HeadMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -140,7 +140,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadMovement",
+                    "action": "p1HeadMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -151,7 +151,99 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadMovement",
+                    "action": "p1HeadMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Select",
+            "id": "268cff76-c20a-43f4-82a0-1c115a3fde36",
+            "actions": [
+                {
+                    "name": "p1Decide",
+                    "type": "Button",
+                    "id": "ae82efea-f906-4e34-8e1d-50cc121966c1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "p1CursorMove",
+                    "type": "PassThrough",
+                    "id": "1cc3395f-f960-418a-948b-0e55eb5b72d6",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8e2907a3-8f80-4f1a-b5df-25ea46721d8d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "p1Decide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "dafbf003-3713-44d0-826b-1447b64b7524",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "p1CursorMove",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "8b338003-471f-4e3c-ac1c-db75e8895c03",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "p1CursorMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "982ccb78-b37f-4488-93ff-c5f5fbd6d234",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "p1CursorMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "1128de6e-a5c4-4c50-9efd-b962303729ff",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "p1CursorMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "f3918f26-2aa3-4f3a-9ec3-95b804cee386",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "p1CursorMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
