@@ -75,6 +75,9 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     [SerializeField] float _fixedTime = 2.0f;
     [SerializeField] float _CDTime = 1.0f;
 
+    [Header("SkillParticle")]
+    [SerializeField] GameObject _SkillparticleObject;
+
     IFixedSkill _fixedSkill = null;
 
     PlayerController _playerController;
@@ -198,6 +201,7 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
         _rightRb.AddTorque(_rightJaw.forward * -_sandwichPower, ForceMode.Impulse);
 
         StartCoroutine(SandWitch());
+        PlaySkillEffect();
     }
 
     private void Update()
@@ -314,5 +318,11 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
         float dist = Vector3.Distance(_fixedTarget.position, pos);
         Vector3 dir = (_fixedTarget.position - pos).normalized;
         return dir / (dist * dist) * _fixedPower;
+    }
+
+    private void PlaySkillEffect()
+    {
+        GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
+        Destroy(effect, 1.5f);
     }
 }

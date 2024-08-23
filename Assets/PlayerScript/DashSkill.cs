@@ -10,6 +10,9 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
     //[SerializeField] float _dashChangeLegWidth = 0.7f;
     [SerializeField] float _CDTime = 1.0f;
 
+    [Header("SkillParticle")]
+    [SerializeField] GameObject _SkillparticleObject;
+
     PlayerController _playerController;
     ControllLegRig _controllLegRig;
     Rigidbody _rb;
@@ -32,6 +35,7 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
     public void UsingSkill()
     {
         StartCoroutine(Dash());
+        PlaySkillEffect();
     }
 
     IEnumerator Dash()
@@ -57,5 +61,10 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
         yield return new WaitForSeconds(_CDTime);
 
         _playerController.usingSkill = false;
+    }
+    private void PlaySkillEffect()
+    {
+        GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
+        Destroy(effect, 1.5f);
     }
 }

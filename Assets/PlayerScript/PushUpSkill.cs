@@ -16,6 +16,9 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     [SerializeField] Vector3 _skillColliderOffset = Vector3.zero;
     [SerializeField] LayerMask _skillLayerMask = new LayerMask();
 
+    [Header("SkillParticle")]
+    [SerializeField] GameObject _SkillparticleObject;
+
     PlayerController _playerController;
     Rigidbody _myRb;
     IHeadMove _headMove;
@@ -56,6 +59,7 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     public void UsingSkill()
     {
         StartCoroutine(PushUp());
+        PlaySkillEffect();
     }
 
     //Gismo
@@ -116,5 +120,11 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
         yield return new WaitForSeconds(_CDtime);
 
         _playerController.usingSkill = false;
+    }
+
+    private void PlaySkillEffect()
+    {
+        GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
+        Destroy(effect, 1.5f);
     }
 }
