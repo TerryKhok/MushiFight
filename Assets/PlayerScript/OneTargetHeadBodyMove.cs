@@ -46,6 +46,11 @@ public class OneTargetHeadBodyMove : MonoBehaviour, IHeadMove
         }
     }
 
+    public void Mirror()
+    {
+        return;
+    }
+
     public float GetHeadMaxAngle()
     {
         return _maxAngle;

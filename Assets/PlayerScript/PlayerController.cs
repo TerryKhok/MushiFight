@@ -5,16 +5,21 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
 public interface IPlayerSkill
 {
     void UsingSkill();
+    void Mirror();
+    void SetSlider(Slider _slider);
 }
 
 public interface IHeadMove
 {
     void Move(Vector2 _direction);
+    void Mirror();
+
     float GetHeadMaxAngle();
     ref float GetHeadAngle();
 }
@@ -57,6 +62,8 @@ public class ReturnRotationZ : IReturnRotation
 [RequireComponent(typeof(ControllLegRig))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] bool _debugMirror = false;
+
     public PlayerNumber _playerNumber;
 
     [Header("Input")]
@@ -115,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
     ControllLegRig _controllLeg;
 
+
     private void OnDisable()
     {
         skill.action.started -= UseSkill;
@@ -135,6 +143,17 @@ public class PlayerController : MonoBehaviour
 
         _rb = transform.GetComponent<Rigidbody>();
 
+        _controllLeg = GetComponent<ControllLegRig>();
+
+        if (_playerNumber == PlayerNumber.player_01)
+        {
+            _renderer.material = _p1Material;
+        }
+        else if (_playerNumber == PlayerNumber.player_02)
+        {
+            _renderer.material = _p2Material;
+        }
+
         float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
         if (cos == -1.0f)
         {
@@ -147,24 +166,50 @@ public class PlayerController : MonoBehaviour
 
         _startAngleY = transform.eulerAngles.y;
 
-        _controllLeg = GetComponent<ControllLegRig>();
+        _rayDir *= cos;
+    }
+
+    public void Mirror()
+    {
+        Debug.Log(_playerNumber);
+
+        _startAngleY = (transform.eulerAngles.y + 180.0f) % 360.0f;
+
+        Vector3 angles = transform.eulerAngles;
+        angles.y = (angles.y + 180.0f) % 360.0f;
+        transform.eulerAngles = angles;
+
+        float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
+        if (cos == -1.0f)
+        {
+            _targetRot = new ReturnRotationZ(transform);
+        }
+        else
+        {
+            _targetRot = new ReturnRotationX(transform);
+        }
+
+        //_startAngleY = transform.eulerAngles.y;
 
         _rayDir *= cos;
 
-        if(_playerNumber == PlayerNumber.player_01)
-        {
-            _renderer.material = _p1Material;
-        }
-        else if (_playerNumber == PlayerNumber.player_02)
-        {
-            _renderer.material = _p2Material;
-        }
+        _controllLeg.Mirror();
 
+        skillLogger.Mirror();
+        headLogger.Mirror();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(_debugMirror)
+        {
+            _debugMirror = false;
+
+            
+            Mirror();
+        }
+
         _rb.centerOfMass = Vector3.zero;
         _centerMass = _rb.centerOfMass + transform.position;
 
@@ -206,5 +251,10 @@ public class PlayerController : MonoBehaviour
         skillLogger.UsingSkill();
 
         usingSkill = true;
+    }
+
+    public void SetSkillSlider(Slider _slider)
+    {
+        skillLogger.SetSlider(_slider);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerController),typeof(ControllLegRig), typeof(Rigidbody))]
 public class DashSkill : MonoBehaviour,IPlayerSkill
@@ -19,6 +20,8 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
 
     Vector3 _forceDir = new Vector3(0.0f, 0.0f, 1.0f);
 
+    Slider _skillSlider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +29,7 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
         _controllLegRig = GetComponent<ControllLegRig>();
         _rb = GetComponent<Rigidbody>();
 
-        if(transform.eulerAngles.y == 180.0f)
-        {
-            _forceDir = new Vector3(0.0f, 0.0f, -1.0f);
-        }
+        Mirror();
     }
 
     public void UsingSkill()
@@ -38,8 +38,23 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
         PlaySkillEffect();
     }
 
+    public void Mirror()
+    {
+        if (transform.eulerAngles.y == 180.0f)
+        {
+            _forceDir = new Vector3(0.0f, 0.0f, -1.0f);
+        }
+        else
+        {
+            _forceDir = new Vector3(0.0f, 0.0f, 1.0f);
+        }
+    }
+
     IEnumerator Dash()
     {
+        _skillSlider.value = 0.0f;
+        _skillSlider.gameObject.SetActive(true);
+
         //_rb.AddForce(transform.forward * _dashPower * _firsePower, ForceMode.Impulse);
 
         //_controllLegRig.PulusAllLegMoveDistance(-_dashChangeLegWidth);
@@ -58,7 +73,19 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
 
         //_controllLegRig.PulusAllLegMoveDistance(_dashChangeLegWidth);
 
-        yield return new WaitForSeconds(_CDTime);
+        t = 0.0f;
+        while (t < _CDTime)
+        {
+            _skillSlider.value = t / _CDTime;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        _skillSlider.gameObject.SetActive(false);
+
+
+        // yield return new WaitForSeconds(_CDTime);
 
         _playerController.usingSkill = false;
     }
@@ -66,5 +93,10 @@ public class DashSkill : MonoBehaviour,IPlayerSkill
     {
         GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
         Destroy(effect, 1.5f);
+    }
+
+    public void SetSlider(Slider _slider)
+    {
+        _skillSlider = _slider;
     }
 }

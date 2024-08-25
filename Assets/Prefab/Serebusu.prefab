@@ -152,10 +152,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: -1.5, y: 0, z: -1.5}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
-  moveDistance: 1
+  moveDistance: 1.2
   moveHeight: 0.4
   mirror: 1
 --- !u!1 &678606939764857009
@@ -353,7 +354,7 @@ MonoBehaviour:
     m_Bits: 128
   setLegRayLenght: 1
   rayLenght: 1.5
-  backMoveOffsetZ: 2.5
+  backMoveOffsetZ: 2
   airOffsetZ: 1
   moveLegList:
   - {fileID: 2921529132965376675}
@@ -377,11 +378,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239ff4633c45a3e45b4a1b728f6292e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugMirror: 0
   _playerNumber: 0
   movement: {fileID: 5243597895695896687, guid: 8e844580c602eee44b12e2d5596b46ea, type: 3}
   headMovement: {fileID: -2845341313009546463, guid: 8e844580c602eee44b12e2d5596b46ea, type: 3}
   skill: {fileID: -8403826435923100740, guid: 8e844580c602eee44b12e2d5596b46ea, type: 3}
-  moveSpeed: 3
+  moveSpeed: 4
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -440,10 +442,10 @@ MonoBehaviour:
   _headPoint: {fileID: 743259856840719652}
   _hipTarget: {fileID: 1135980927422041818}
   _pointDistance: 3
-  _headMoveSpeed: 60
+  _headMoveSpeed: 120
   _maxAngle: 60
   _minAngle: -20
-  headAngle: 0
+  _headAngle: 0
 --- !u!1 &771517270150204869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1157,8 @@ MonoBehaviour:
   rayLayer:
     serializedVersion: 2
     m_Bits: 128
-  offset: {x: 1.5, y: 0, z: 2}
+  offset: {x: 1, y: 0, z: 2}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -1231,6 +1234,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loseTime: 5
   _stayTime: 0
+  text: {fileID: 0}
+  slider: {fileID: 0}
   _nextScene: Result
 --- !u!114 &5249911213499096250
 MonoBehaviour:
@@ -1317,6 +1322,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: 1.5, y: 0, z: -1.5}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -1677,7 +1683,8 @@ MonoBehaviour:
   rayLayer:
     serializedVersion: 2
     m_Bits: 128
-  offset: {x: 1.5, y: 0, z: 0}
+  offset: {x: 1.2, y: 0, z: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -1766,7 +1773,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2, y: 0.3, z: 4}
+  m_Size: {x: 0.2, y: 0.3, z: 3.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5969886739489748176
 GameObject:
@@ -1919,11 +1926,12 @@ MonoBehaviour:
   rayLayer:
     serializedVersion: 2
     m_Bits: 128
-  offset: {x: -1.5, y: 0, z: 0}
+  offset: {x: -1.2, y: 0, z: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
-  moveDistance: 1.2
+  moveDistance: 1
   moveHeight: 0.2
   mirror: 1
 --- !u!1 &6297279525774302337
@@ -2041,7 +2049,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2, y: 0.3, z: 4}
+  m_Size: {x: 0.2, y: 0.3, z: 3.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6916091893780780633
 GameObject:
@@ -2115,7 +2123,8 @@ MonoBehaviour:
   rayLayer:
     serializedVersion: 2
     m_Bits: 128
-  offset: {x: -1.5, y: 0, z: 2}
+  offset: {x: -1, y: 0, z: 2}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -2723,7 +2732,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.4, y: 2, z: 0.4}
-  m_Center: {x: 0, y: 1.2, z: 0}
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!4 &690011091592457741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6684011137969183765, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}
@@ -2967,7 +2976,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.4, y: 2, z: 0.4}
-  m_Center: {x: 0, y: 1.2, z: 0}
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!1 &7956164303187946122 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4267425209909500052, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}

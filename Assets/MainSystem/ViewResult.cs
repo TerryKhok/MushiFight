@@ -8,6 +8,10 @@ public class ViewResult : MonoBehaviour
     [SerializeField] TextMeshProUGUI _text;
     [SerializeField] MushiMesh _mushiMesh;
 
+    [Header("Material")]
+    [SerializeField] Material _p1Material;
+    [SerializeField] Material _p2Material;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +28,16 @@ public class ViewResult : MonoBehaviour
                 break;
         }
 
-        _mushiMesh.ChangeMesh(GameVariables.GetPlayerMushiType(winNumber));
+        GameObject targetMesh = _mushiMesh.ChangeMesh(GameVariables.GetPlayerMushiType(winNumber));
+        var renderer = targetMesh.GetComponentInChildren<SkinnedMeshRenderer>();
+
+        if (GameVariables.GetLosePlayer() == PlayerNumber.player_01)
+        {
+            renderer.material = _p2Material;
+        }
+        else
+        {
+            renderer.material = _p1Material;
+        }
     }
 }

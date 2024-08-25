@@ -29,41 +29,16 @@ public class ControllLegRig : MonoBehaviour
     bool _isBack = true;
     float _mirror = 1.0f;
 
+    float _back = 0.0f;
+    float _air = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-        foreach(var leg in moveLegList)
-        {
-            leg.Init();
-
-        }
-
         _rb = GetComponent<Rigidbody>();
         _oldPosZ = transform.position.z;
 
-        float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
-        _mirror = cos;
-        backMoveOffsetZ *= _mirror;
-        airOffsetZ *= _mirror;
-
-        //if (backMoveOffsetZ < 0.0f)
-        //{
-        //    _mirror = -1.0f;
-        //    airOffsetZ *= _mirror;
-        //}
-
-        IReturnRotation returnRot = null;
-        if (_mirror == -1.0f)
-            returnRot = new ReturnRotationZ(transform);
-        else
-            returnRot = new ReturnRotationX(transform);
-
-        foreach (var leg in moveLegList)
-        {
-            legZOffsets.Add(leg.offset.z);
-            leg.mirror = _mirror;
-            leg.targetRot = returnRot;
-        }
+        Mirror();
 
         if (setLegRayLenght)
         {
@@ -71,6 +46,34 @@ public class ControllLegRig : MonoBehaviour
             {
                 leg.rayLenght = rayLenght;
             }
+        }
+    }
+
+    public void Mirror()
+    {
+        foreach (var leg in moveLegList)
+        {
+            leg.Init();
+        }
+
+        float cos = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
+        _mirror = cos;
+        _back = backMoveOffsetZ * _mirror;
+        _air = airOffsetZ * _mirror;
+       
+
+        IReturnRotation returnRot = null;
+        if (_mirror == -1.0f)
+            returnRot = new ReturnRotationZ(transform);
+        else
+            returnRot = new ReturnRotationX(transform);
+
+        legZOffsets.Clear();
+        foreach (var leg in moveLegList)
+        {
+            legZOffsets.Add(leg.targetOffset.z);
+            leg.mirror = _mirror;
+            leg.targetRot = returnRot;
         }
     }
 
@@ -94,7 +97,7 @@ public class ControllLegRig : MonoBehaviour
         }
         
 
-        float moveOffset = backMoveOffsetZ;
+        float moveOffset = _back;
 
         Ray ray = new Ray(transform.position, Quaternion.Euler(transform.eulerAngles) * Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit hit, rayLenght, rayLayer))
@@ -105,7 +108,7 @@ public class ControllLegRig : MonoBehaviour
         {
             for (int i = 0; i < moveLegList.Count; i++)
             {
-                moveLegList[i].offset.z = legZOffsets[i] - airOffsetZ;
+                moveLegList[i].targetOffset.z = legZOffsets[i] - _air;
             }
             return;
         }
@@ -117,7 +120,7 @@ public class ControllLegRig : MonoBehaviour
             {
                 for(int i = 0;i < moveLegList.Count;i++)
                 {
-                    moveLegList[i].offset.z = legZOffsets[i] - moveOffset;
+                    moveLegList[i].targetOffset.z = legZOffsets[i] - moveOffset;
                 }
                 //foreach (var leg in moveLegList)
                 //{
@@ -132,7 +135,7 @@ public class ControllLegRig : MonoBehaviour
             _isBack = false;
             for (int i = 0; i < moveLegList.Count; i++)
             {
-                moveLegList[i].offset.z = legZOffsets[i];
+                moveLegList[i].targetOffset.z = legZOffsets[i];
             }
         }
 

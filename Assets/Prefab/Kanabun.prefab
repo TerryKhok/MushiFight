@@ -73,6 +73,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: -0.7, y: 0, z: 1.5}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -214,6 +215,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: 1.2, y: 0, z: 0.3}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -706,6 +708,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: 0.7, y: 0, z: 1.5}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -853,6 +856,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: -1.2, y: 0, z: 0.3}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -928,6 +932,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loseTime: 5
   _stayTime: 0
+  text: {fileID: 0}
+  slider: {fileID: 0}
   _nextScene: Result
 --- !u!114 &8485976462148307460
 MonoBehaviour:
@@ -1170,11 +1176,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239ff4633c45a3e45b4a1b728f6292e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugMirror: 0
   _playerNumber: 0
   movement: {fileID: 5243597895695896687, guid: c1e9111ccdbc70c49bbf5bec8a342b12, type: 3}
   headMovement: {fileID: -2845341313009546463, guid: c1e9111ccdbc70c49bbf5bec8a342b12, type: 3}
   skill: {fileID: -8403826435923100740, guid: c1e9111ccdbc70c49bbf5bec8a342b12, type: 3}
-  moveSpeed: 3
+  moveSpeed: 4
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1230,10 +1237,10 @@ MonoBehaviour:
   _headPoint: {fileID: 2307137570655764040}
   _hipTarget: {fileID: 969051846809045097}
   _pointDistance: 2
-  _headMoveSpeed: 90
+  _headMoveSpeed: 120
   _maxAngle: 50
   _minAngle: -20
-  headAngle: 0
+  _headAngle: -180
 --- !u!114 &4368680816665995702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,6 +1499,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: 1.2, y: 0, z: -0.6}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2
@@ -1602,6 +1610,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   offset: {x: -1.4, y: 0, z: -0.6}
+  targetOffset: {x: 0, y: 0, z: 0}
   rayLenght: 2
   isHit: 0
   moveTime: 0.2

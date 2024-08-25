@@ -6,7 +6,8 @@ public class MoveLegRig : MonoBehaviour
 {
     [Header("Ray")]
     [SerializeField] LayerMask rayLayer = new LayerMask();
-    public Vector3 offset;
+    [SerializeField] Vector3 offset;
+    public Vector3 targetOffset;
     public float rayLenght = 10.0f;
     [ReadOnly] public bool isHit = false;
 
@@ -33,18 +34,25 @@ public class MoveLegRig : MonoBehaviour
 
     public void Init()
     {
-        float radY = -_rootObject.eulerAngles.y * Mathf.PI / 180.0f;
-        offset = new Vector3(
-                Mathf.Cos(radY) * offset.x - Mathf.Sin(radY) * offset.z,
-                offset.y,
-                Mathf.Sin(radY) * offset.x + Mathf.Cos(radY) * offset.z
-                );
+        Mirror();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _deltaTime = moveTime + 1.0f;
+        
+    }
+
+    public void Mirror()
+    {
+        float radY = -_rootObject.eulerAngles.y * Mathf.PI / 180.0f;
+        targetOffset = new Vector3(
+                Mathf.Cos(radY) * offset.x - Mathf.Sin(radY) * offset.z,
+                offset.y,
+                Mathf.Sin(radY) * offset.x + Mathf.Cos(radY) * offset.z
+                );
+
         _endPos = _rootObject.position + offset;
     }
 
@@ -59,9 +67,9 @@ public class MoveLegRig : MonoBehaviour
     {
         float radX = -_rootObject.eulerAngles.x * Mathf.PI / 180.0f * mirror;
         Vector3 LegPos = new Vector3(
-            offset.x,
-            Mathf.Sin(radX) * offset.z + Mathf.Cos(radX) * offset.y,
-            Mathf.Cos(radX) * offset.z - Mathf.Sin(radX) * offset.y
+            targetOffset.x,
+            Mathf.Sin(radX) * targetOffset.z + Mathf.Cos(radX) * targetOffset.y,
+            Mathf.Cos(radX) * targetOffset.z - Mathf.Sin(radX) * targetOffset.y
             );
 
         float rot = targetRot.GetRotation();

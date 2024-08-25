@@ -15,23 +15,29 @@ public class MushiMesh : MonoBehaviour
         transform.eulerAngles = angles;
     }
 
-    public void ChangeMesh(MushiType _type)
+    public GameObject ChangeMesh(MushiType _type)
     {
         _kokusanMesh.SetActive(false);
         _serebesuMesh.SetActive(false);
         _kanabunMesh.SetActive(false);
 
+        GameObject targetObj = null;
+
         switch (_type)
         {
             case MushiType.Kokusan:
-                _kokusanMesh.SetActive(true);
+                targetObj = _kokusanMesh;
                 break;
             case MushiType.Serebesu:
-                _serebesuMesh.SetActive(true);
+                targetObj = _serebesuMesh;
                 break;
             case MushiType.Kanabun:
-                _kanabunMesh.SetActive(true);
+                targetObj = _kanabunMesh;
                 break;
         }
+
+        targetObj.SetActive(true);
+
+        return targetObj;
     }
 }

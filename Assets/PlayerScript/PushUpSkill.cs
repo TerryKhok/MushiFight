@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerController),typeof(IHeadMove))]
 public class PushUpSkill : MonoBehaviour, IPlayerSkill
@@ -26,6 +27,8 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     Vector3 colPos = Vector3.zero;
     Quaternion colRot = Quaternion.identity;
     Vector3 colSize = Vector3.zero;
+
+    Slider _skillSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +66,11 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
         PlaySkillEffect();
     }
 
+    public void Mirror()
+    {
+        return;
+    }
+
     //Gismo
     //======================================================
     void Update()
@@ -84,6 +92,9 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
 
     IEnumerator PushUp()
     {
+        _skillSlider.value = 0.0f;
+        _skillSlider.gameObject.SetActive(true);
+
         float maxAngle = _headMove.GetHeadMaxAngle();
 
         //colPos = _colliderParent.position + _skillColliderOffset;
@@ -169,8 +180,18 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
         //    yield return null;
         //}
 
+        float t = 0.0f;
+        while(t < _CDtime)
+        {
+            _skillSlider.value = t / _CDtime;
 
-        yield return new WaitForSeconds(_CDtime);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        _skillSlider.gameObject.SetActive(false);
+
+        //yield return new WaitForSeconds(_CDtime);
 
         _playerController.usingSkill = false;
     }
@@ -179,5 +200,10 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     {
         GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
         Destroy(effect, 1.5f);
+    }
+
+    public void SetSlider(Slider _slider)
+    {
+        _skillSlider = _slider;
     }
 }

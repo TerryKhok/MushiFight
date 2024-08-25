@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 interface IFixedSkill
 {
@@ -74,6 +75,7 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     [SerializeField] float _fixedPower = 3.0f;
     [SerializeField] float _fixedTime = 2.0f;
     [SerializeField] float _CDTime = 1.0f;
+    Slider _skillSlider;
 
     [Header("SkillParticle")]
     [SerializeField] GameObject _SkillparticleObject;
@@ -99,6 +101,8 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     Vector3 colGizmoRightPos = Vector3.zero;
     Quaternion colGizmoRightRot = Quaternion.identity;
 
+    Vector3 _colOffset = Vector3.zero;
+
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(0.5f, 0.0f, 0.5f, 1.0f);
@@ -120,8 +124,7 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     {
         _playerController = GetComponent<PlayerController>();
 
-        float mirror = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
-        _fixedColliderOffset *= mirror;
+        Mirror();
 
         GameObject leftGameObject = Instantiate(_pfJawCollider, _leftBase.position, _leftBase.rotation);
         leftGameObject.name = gameObject.name + "LeftJawCollider";
@@ -129,7 +132,7 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
 
         _leftSkillTf = new GameObject("LeftSkillTF").transform;
         _leftSkillTf.parent = _leftJaw;
-        _leftSkillTf.position = _leftJaw.position + _fixedColliderOffset;
+        _leftSkillTf.position = _leftJaw.position + _colOffset;
         _leftSkillTf.localRotation = Quaternion.identity;
 
         JointLimits limits;
@@ -157,11 +160,11 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
         rightGameObject.name = gameObject.name + "RightJawCollider";
         _rightJaw = rightGameObject.transform;
 
-        _fixedColliderOffset.x *= -1.0f;
+        _colOffset.x *= -1.0f;
 
         _rightSkillTf = new GameObject("RightSkillTF").transform;
         _rightSkillTf.parent = _rightJaw;
-        _rightSkillTf.position = _rightJaw.position + _fixedColliderOffset;
+        _rightSkillTf.position = _rightJaw.position + _colOffset;
         _rightSkillTf.localRotation = Quaternion.identity;
 
         if (!_rightBase.TryGetComponent<HingeJoint>(out _rightJoint))
@@ -204,6 +207,12 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
         PlaySkillEffect();
     }
 
+    public void Mirror()
+    {
+        float mirror = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180.0f);
+        _colOffset = _fixedColliderOffset * mirror;
+    }
+
     private void Update()
     {
         //Gismos
@@ -217,6 +226,9 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
 
     IEnumerator SandWitch()
     {
+        _skillSlider.value = 0.0f;
+        _skillSlider.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(.3f);
 
         _leftRb.AddTorque(_leftJaw.forward * -_sandwichPower, ForceMode.Impulse);
@@ -307,7 +319,19 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
         _leftRb.angularVelocity = Vector3.zero;
         _rightRb.angularVelocity = Vector3.zero;
 
-        yield return new WaitForSeconds(_CDTime);
+        t = 0.0f;
+        while (t < _CDTime)
+        {
+            _skillSlider.value = t / _CDTime;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        _skillSlider.gameObject.SetActive(false);
+
+
+        //yield return new WaitForSeconds(_CDTime);
 
         _playerController.usingSkill = false;
 
@@ -324,5 +348,10 @@ public class SandwichSkill : MonoBehaviour,IPlayerSkill
     {
         GameObject effect = Instantiate(_SkillparticleObject, this.transform.position, Quaternion.identity);
         Destroy(effect, 1.5f);
+    }
+
+    public void SetSlider(Slider _slider)
+    {
+        _skillSlider = _slider;
     }
 }
