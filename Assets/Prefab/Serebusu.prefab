@@ -364,6 +364,7 @@ MonoBehaviour:
   - {fileID: 7642246086437753741}
   _maxGripPower: 10
   hitLegNum: 0
+  legZOffsets: []
 --- !u!114 &7892191357932505623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,9 +382,16 @@ MonoBehaviour:
   headMovement: {fileID: -2845341313009546463, guid: 8e844580c602eee44b12e2d5596b46ea, type: 3}
   skill: {fileID: -8403826435923100740, guid: 8e844580c602eee44b12e2d5596b46ea, type: 3}
   moveSpeed: 3
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _rayOffset: {x: 0, y: 0, z: 0}
   _headMoveComponent: {fileID: 4190481201057105938}
   _skillComponent: {fileID: 5519244764004279661}
   usingSkill: 0
+  _renderer: {fileID: 6809037643289528440}
+  _p1Material: {fileID: 2100000, guid: 559dd1c5d577d1d45b75b3b7eb33fe12, type: 2}
+  _p2Material: {fileID: 2100000, guid: 5978593bab766a54baac59ba5025ef26, type: 2}
 --- !u!114 &5519244764004279661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +422,8 @@ MonoBehaviour:
   _releasePower: 5
   _fixedPower: 300
   _fixedTime: 2
-  _CDTime: 1
+  _CDTime: 5
+  _SkillparticleObject: {fileID: 2574935884073941700, guid: 5cc47ccc14ff10e45a211cb2eeb07aac, type: 3}
 --- !u!114 &4190481201057105938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2865,6 +2874,11 @@ Transform:
 --- !u!4 &6714978533601537928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8619488639959982702, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}
+  m_PrefabInstance: {fileID: 3075666239077813734}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6809037643289528440 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}
   m_PrefabInstance: {fileID: 3075666239077813734}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7130076884405902040 stripped

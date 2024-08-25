@@ -21,12 +21,12 @@ public class ControllLegRig : MonoBehaviour
     [SerializeField] float _maxGripPower = 10.0f;
     [ReadOnly] public int hitLegNum = 0;
 
-    List<float> legZOffsets = new List<float>();
+    [SerializeField] List<float> legZOffsets = new List<float>();
 
     Rigidbody _rb;
     float _oldPosZ = 0.0f;
     float _oldPosY = 0.0f;
-    bool _isBack = false;
+    bool _isBack = true;
     float _mirror = 1.0f;
 
     // Start is called before the first frame update
@@ -35,6 +35,7 @@ public class ControllLegRig : MonoBehaviour
         foreach(var leg in moveLegList)
         {
             leg.Init();
+
         }
 
         _rb = GetComponent<Rigidbody>();
@@ -64,7 +65,7 @@ public class ControllLegRig : MonoBehaviour
             leg.targetRot = returnRot;
         }
 
-        if(setLegRayLenght)
+        if (setLegRayLenght)
         {
             foreach (var leg in moveLegList)
             {

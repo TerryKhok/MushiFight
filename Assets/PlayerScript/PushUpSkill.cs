@@ -38,6 +38,7 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
         if (_colliderParent.TryGetComponent<BoxCollider>(out collider))
         {
             colSize = collider.size;
+            colSize.y += 1.0f;
         }
         else
         {
@@ -66,7 +67,14 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     //======================================================
     void Update()
     {
-        colPos = _colliderParent.position + _skillColliderOffset;
+        float rad = _headMove.GetHeadMaxAngle() * Mathf.PI / 180.0f;
+
+        colPos = _colliderParent.position + new Vector3(
+            _skillColliderOffset.x,
+            Mathf.Sin(rad) * _skillColliderOffset.z + Mathf.Cos(rad) * _skillColliderOffset.y,
+            Mathf.Cos(rad) * _skillColliderOffset.z - Mathf.Sin(rad) * _skillColliderOffset.y
+            );
+
         colRot = _colliderParent.rotation;
 
         Debug.DrawRay(colPos, -_colliderParent.forward, Color.green);
@@ -78,30 +86,75 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
     {
         float maxAngle = _headMove.GetHeadMaxAngle();
 
-        colPos = _colliderParent.position + _skillColliderOffset;
-        colRot = _colliderParent.rotation;
+        //colPos = _colliderParent.position + _skillColliderOffset;
+        //colRot = _colliderParent.rotation;
 
-        var leftColliders
-          = Physics.OverlapBox(colPos, colSize, colRot, _skillLayerMask);
+        //_colliderParent.gameObject.SetActive(false);
 
+        Collider[] Colliders;
         Rigidbody targetRb = null;
-        foreach (var collider in leftColliders)
+        bool push = false;
+
+        Colliders
+            = Physics.OverlapBox(colPos, colSize, colRot, _skillLayerMask);
+
+        targetRb = null;
+        foreach (var collider in Colliders)
         {
             if (collider.transform == _colliderParent) continue;
 
             if (collider.transform.root.TryGetComponent<Rigidbody>(out targetRb) && targetRb != _myRb)
             {
-                Debug.Log(collider);
                 targetRb.AddForceAtPosition(-_colliderParent.forward * _pushUpForce, colPos, ForceMode.Impulse);
+                push = true;
             }
+
         }
 
         while (_headMove.GetHeadAngle() < maxAngle)
         {
-            _headMove.GetHeadAngle() += Time.deltaTime * _pushUpSpeed;
+            float deltaTime = Time.deltaTime;
+            _headMove.GetHeadAngle() += deltaTime * _pushUpSpeed;
 
+            if(!push)
+            {
+                Colliders
+                 = Physics.OverlapBox(colPos, colSize, colRot, _skillLayerMask);
+
+                targetRb = null;
+                foreach (var collider in Colliders)
+                {
+                    if (collider.transform == _colliderParent) continue;
+
+                    if (collider.transform.root.TryGetComponent<Rigidbody>(out targetRb) && targetRb != _myRb)
+                    {
+                        targetRb.AddForceAtPosition(-_colliderParent.forward * _pushUpForce, colPos, ForceMode.Impulse);
+                        push = true;
+                    }
+
+                }
+            }
+            
             yield return null;
         }
+
+        Colliders = Physics.OverlapBox(colPos, colSize, colRot, _skillLayerMask);
+
+        targetRb = null;
+        foreach (var collider in Colliders)
+        {
+            if (collider.transform == _colliderParent) continue;
+
+            if (collider.transform.root.TryGetComponent<Rigidbody>(out targetRb) && targetRb != _myRb)
+            {
+                targetRb.AddForceAtPosition(Vector3.up * _pushUpForce, colPos, ForceMode.Impulse);
+            }
+
+        }
+
+        yield return new WaitForSeconds(.1f);
+
+        //_colliderParent.gameObject.SetActive(true);
 
         //float startHeight = _headPoint.position.y;
         //float t = 0.0f;
@@ -113,8 +166,8 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
         //    _headPoint.localPosition = pos;
         //    t += Time.deltaTime * _pushUpSpeed;
 
-            //    yield return null;
-            //}
+        //    yield return null;
+        //}
 
 
         yield return new WaitForSeconds(_CDtime);

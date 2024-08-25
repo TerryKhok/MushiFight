@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEditor.PlayerSettings;
@@ -53,6 +54,7 @@ public class ReturnRotationZ : IReturnRotation
     }
 }
 
+[RequireComponent(typeof(ControllLegRig))]
 public class PlayerController : MonoBehaviour
 {
     public PlayerNumber _playerNumber;
@@ -64,8 +66,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
+    [SerializeField] LayerMask _groundLayer = new LayerMask();
+    [SerializeField] Vector3 _rayOffset = Vector3.zero;
     float _startAngleY = 0.0f;
     IReturnRotation _targetRot;
+    Vector3 _rayDir = Vector3.forward;
+    
 
     Rigidbody _rb;
     private Vector2 _moveDirection;
@@ -102,6 +108,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    [Header("Material")]
+    [SerializeField] SkinnedMeshRenderer _renderer;
+    [SerializeField] Material _p1Material;
+    [SerializeField] Material _p2Material;
+
+    ControllLegRig _controllLeg;
+
     private void OnDisable()
     {
         skill.action.started -= UseSkill;
@@ -133,6 +146,20 @@ public class PlayerController : MonoBehaviour
         }
 
         _startAngleY = transform.eulerAngles.y;
+
+        _controllLeg = GetComponent<ControllLegRig>();
+
+        _rayDir *= cos;
+
+        if(_playerNumber == PlayerNumber.player_01)
+        {
+            _renderer.material = _p1Material;
+        }
+        else if (_playerNumber == PlayerNumber.player_02)
+        {
+            _renderer.material = _p2Material;
+        }
+
     }
 
     // Update is called once per frame
@@ -161,6 +188,14 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.DrawRay(transform.position + _rayOffset, _rayDir);
+
+        Ray ray = new Ray(transform.position + _rayOffset, _rayDir);
+        if (Physics.Raycast(ray, out RaycastHit hit, 3.0f, _groundLayer))
+        {
+            return;
+        }
+
         _rb.velocity = new Vector3(0.0f, _rb.velocity.y/*_moveDirection.y * moveSpeed * 0.01f*/, _moveDirection.x * moveSpeed);
     }
 

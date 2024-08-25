@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Debug")]
+    [SerializeField] bool _trigger = false;
+    [SerializeField] MushiType _p1MushiType;
+    [SerializeField] MushiType _p2MushiType;
+
+    [Header("Cinemachine")]
+    [SerializeField] CinemachineTargetGroup _targetGroup;
+
     [Header("Prefab")]
     [SerializeField] GameObject _pfKokusan;
     [SerializeField] GameObject _pfSerebesu;
@@ -23,7 +32,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] InputActionReference _p2headMovement;
     [SerializeField] InputActionReference _p2skill;
 
-
     [SerializeField] Vector3 _p1StartPos;
     [SerializeField] Vector3 _p2StartPos;
 
@@ -33,6 +41,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if(_trigger)
+        {
+            GameVariables.ChangeMushiType(_p1MushiType, PlayerNumber.player_01);
+            GameVariables.ChangeMushiType(_p2MushiType, PlayerNumber.player_02);
+        }
+
         switch (GameVariables.GetPlayerMushiType(PlayerNumber.player_01))
         {
             case MushiType.Kokusan:
@@ -89,18 +103,14 @@ public class GameManager : MonoBehaviour
         _playerController.headMovement = _p2headMovement;
         _playerController.skill = _p2skill;
 
-    }
+        _targetGroup.AddMember(_p1Mushi, 1, 3);
+        _targetGroup.AddMember(_p2Mushi, 1, 3);
+}
 
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 1f, 0, 0.5f);
         Gizmos.DrawSphere(_p1StartPos, 0.25f);
         Gizmos.DrawSphere(_p2StartPos, 0.25f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
