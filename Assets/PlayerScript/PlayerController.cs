@@ -6,9 +6,7 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-#if UNITY_EDITOR
 using static UnityEditor.PlayerSettings;
-#endif
 
 public interface IPlayerSkill
 {

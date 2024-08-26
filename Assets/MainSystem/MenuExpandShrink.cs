@@ -20,7 +20,7 @@ public class MenuExpandShrink : MonoBehaviour
         if (!_reverse)
         {
             _scaleNumber = _scaleNumber + _scaleRate;
-            _uiObject.transform.localScale = new Vector3(3 + _scaleNumber, 3 + _scaleNumber, 3 + _scaleNumber);
+            _uiObject.transform.localScale = new Vector3(1 + _scaleNumber, 1 + _scaleNumber, 1 + _scaleNumber);
             if (_scaleNumber >= .20f)
             {
                 _reverse = !_reverse;
@@ -29,7 +29,7 @@ public class MenuExpandShrink : MonoBehaviour
         else
         {
             _scaleNumber = _scaleNumber - _scaleRate;
-            _uiObject.transform.localScale = new Vector3(3 + _scaleNumber, 3 + _scaleNumber, 3 + _scaleNumber);
+            _uiObject.transform.localScale = new Vector3(1 + _scaleNumber, 1 + _scaleNumber, 1 + _scaleNumber);
             if (_scaleNumber <= 0f)
             {
                 _reverse = !_reverse;
