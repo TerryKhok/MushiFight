@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.tarodev.autosave": "https://github.com/Matthew-J-Spencer/Tarodev.git?path=Assets/Plugins/AutoSave",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.animation.rigging": "1.2.1",
     "com.unity.cinemachine": "2.10.1",
