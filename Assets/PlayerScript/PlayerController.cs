@@ -6,7 +6,12 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
 using static UnityEditor.PlayerSettings;
+#endif
+
+
 
 public interface IPlayerSkill
 {
@@ -79,6 +84,8 @@ public class PlayerController : MonoBehaviour
     float _startAngleY = 0.0f;
     IReturnRotation _targetRot;
     Vector3 _rayDir = Vector3.forward;
+
+    [ReadOnly, SerializeField] Vector3 angles;
 
 
     Rigidbody _rb;
@@ -210,6 +217,8 @@ public class PlayerController : MonoBehaviour
 
             Mirror();
         }
+
+        angles = transform.eulerAngles;
 
         _rb.centerOfMass = _massCenter;
         _centerMass = _rb.centerOfMass + transform.position;

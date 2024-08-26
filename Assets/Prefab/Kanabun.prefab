@@ -1186,6 +1186,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _rayOffset: {x: 0, y: 0, z: 0}
+  _massCenter: {x: 0, y: 0, z: 0}
+  angles: {x: 0, y: 0, z: 0}
   _headMoveComponent: {fileID: 21031221200055507}
   _skillComponent: {fileID: 4368680816665995702}
   usingSkill: 0
@@ -1254,9 +1256,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dashPower: 1000
-  _dashTime: 1
+  _AddPower: 250
+  _dashTime: 1.5
   _CDTime: 5
+  _colOffset: {x: 0, y: 0.5, z: 1.5}
+  _colSize: {x: 2, y: 0.5, z: 0.5}
+  _skillLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   _SkillparticleObject: {fileID: 2574935884073941700, guid: 5cc47ccc14ff10e45a211cb2eeb07aac, type: 3}
+  _hitParticle: {fileID: 5933602760919840800, guid: 2f30337f4a05e214c8f242a669c14f77, type: 3}
 --- !u!1 &6733367179611859296
 GameObject:
   m_ObjectHideFlags: 0

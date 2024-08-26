@@ -388,6 +388,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _rayOffset: {x: 0, y: 0, z: 0}
+  _massCenter: {x: 0, y: 0, z: 0}
   _headMoveComponent: {fileID: 4190481201057105938}
   _skillComponent: {fileID: 5519244764004279661}
   usingSkill: 0
@@ -2827,8 +2828,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.4, z: 0}
+  m_Size: {x: 1.9, y: 1.2, z: 0.5}
+  m_Center: {x: 0, y: 0.4, z: -0.05}
 --- !u!4 &5238678306270710848 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7069930203697021350, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}
@@ -2863,7 +2864,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8, y: 0.8, z: 0.5}
+  m_Size: {x: 1.8, y: 1.3, z: 0.5}
   m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!4 &5946605837591603151 stripped
 Transform:
@@ -2944,8 +2945,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.7, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.7, z: 0}
+  m_Size: {x: 1.7, y: 1.3, z: 0.5}
+  m_Center: {x: 0, y: 0.6, z: 0.05}
 --- !u!4 &7867559209498999965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4070733665033817733, guid: 0db01e5468c435f489d7c32743bd274d, type: 3}
@@ -3069,7 +3070,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.3, y: 1, z: 0.6}
+  m_Size: {x: 1.3, y: 1.2, z: 0.6}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &8208449906328908348 stripped
 Transform:
