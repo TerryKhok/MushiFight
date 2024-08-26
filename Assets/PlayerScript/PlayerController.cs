@@ -6,9 +6,7 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-#if UNITY_EDITOR
 using static UnityEditor.PlayerSettings;
-#endif
 
 public interface IPlayerSkill
 {
@@ -77,14 +75,15 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     [SerializeField] LayerMask _groundLayer = new LayerMask();
     [SerializeField] Vector3 _rayOffset = Vector3.zero;
+    public Vector3 _massCenter = Vector3.zero;
     float _startAngleY = 0.0f;
     IReturnRotation _targetRot;
     Vector3 _rayDir = Vector3.forward;
-    
+
 
     Rigidbody _rb;
     private Vector2 _moveDirection;
-   
+
     [Header("HeadMove")]
     [SerializeField, ComponentRestriction(typeof(IHeadMove))] Component _headMoveComponent;
 
@@ -204,15 +203,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_debugMirror)
+        if (_debugMirror)
         {
             _debugMirror = false;
 
-            
+
             Mirror();
         }
 
-        _rb.centerOfMass = Vector3.zero;
+        _rb.centerOfMass = _massCenter;
         _centerMass = _rb.centerOfMass + transform.position;
 
         //Quaternion rotation = transform.rotation;
@@ -239,6 +238,12 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = new Ray(transform.position + _rayOffset, _rayDir);
         if (Physics.Raycast(ray, out RaycastHit hit, 3.0f, _groundLayer))
+        {
+            return;
+        }
+
+        ray = new Ray(transform.position, Vector3.down);
+        if (!Physics.Raycast(ray, out hit, 3.0f, _groundLayer))
         {
             return;
         }

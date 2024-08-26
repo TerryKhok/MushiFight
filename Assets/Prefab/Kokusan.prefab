@@ -1856,6 +1856,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _rayOffset: {x: 0, y: 0, z: 0}
+  _massCenter: {x: 0, y: 0, z: 0}
   _headMoveComponent: {fileID: 4729167210889524216}
   _skillComponent: {fileID: 8661806299569542540}
   usingSkill: 0
@@ -1904,7 +1905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headPoint: {fileID: 7972455513784246501}
-  _pushUpForce: 14
+  _pushUpForce: 50
   _CDtime: 5
   _pushUpSpeed: 360
   _colliderParent: {fileID: 9045939749052574154}
@@ -1913,6 +1914,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   _SkillparticleObject: {fileID: 2574935884073941700, guid: 5cc47ccc14ff10e45a211cb2eeb07aac, type: 3}
+  _hitParticle: {fileID: 5933602760919840800, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
 --- !u!114 &4729167210889524216
 MonoBehaviour:
   m_ObjectHideFlags: 0

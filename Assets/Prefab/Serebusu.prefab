@@ -422,7 +422,7 @@ MonoBehaviour:
   AddForce: 1
   _sandwichPower: 50
   _releasePower: 5
-  _fixedPower: 300
+  _fixedPower: 280
   _fixedTime: 2
   _CDTime: 5
   _SkillparticleObject: {fileID: 2574935884073941700, guid: 5cc47ccc14ff10e45a211cb2eeb07aac, type: 3}

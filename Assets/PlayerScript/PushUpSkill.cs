@@ -19,6 +19,7 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
 
     [Header("SkillParticle")]
     [SerializeField] GameObject _SkillparticleObject;
+    [SerializeField] GameObject _hitParticle;
 
     PlayerController _playerController;
     Rigidbody _myRb;
@@ -117,6 +118,10 @@ public class PushUpSkill : MonoBehaviour, IPlayerSkill
             if (collider.transform.root.TryGetComponent<Rigidbody>(out targetRb) && targetRb != _myRb)
             {
                 targetRb.AddForceAtPosition(-_colliderParent.forward * _pushUpForce, colPos, ForceMode.Impulse);
+
+                GameObject effect = Instantiate(_hitParticle,collider.ClosestPointOnBounds(this.transform.position), Quaternion.identity);
+                Destroy(effect, 1.5f);
+
                 push = true;
             }
 
